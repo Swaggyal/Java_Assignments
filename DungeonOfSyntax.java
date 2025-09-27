@@ -25,7 +25,6 @@ public class DungeonOfSyntax {
 
         //While loop
         while(health > 0){
-            // String[] events = {"monster", "chest", "nothing"};        
             int event = rand.nextInt(3); // 0=monster, 1=chest, 2=nothing
 
             if(event == 0)
@@ -110,11 +109,61 @@ static void battleMonster(){
     }
 }
 
+// --- Open Chest Method ---
+static void openChest() {
+        String[] items = {"potion", "shield", "amulet"};
+        String prize = items[rand.nextInt(items.length)];
 
-static void openChest(){}
+        inventory.add(prize);
+        System.out.println("You found a chest containing: " + prize + "!");
+    }
 
-static void displayStatus(){}
+// --- Method to Use Item ---
+static void useItem() {
+    if (inventory.isEmpty()) {
+        System.out.println("Your inventory is empty!");
+        return;
+    }
 
-static void useItem(){}
+    System.out.println("Inventory: " + inventory);
+    System.out.print("Choose an item to use: ");
+    String item = sc.nextLine().toLowerCase();
+
+    if (!inventory.contains(item)) {
+        System.out.println("You do not have that item!");
+        return;
+    }
+
+    switch (item) {
+        case "potion":
+            health += 20;
+            inventory.remove("potion");
+            System.out.println("You used a potion and restored 20 HP!");
+            break;
+        case "shield":
+            activeEffects.add("shield");
+            inventory.remove("shield");
+            System.out.println("You equipped a shield for the next attack!");
+            break;
+        case "amulet":
+            activeEffects.add("amulet");
+            inventory.remove("amulet");
+            System.out.println("You equipped an amulet! Next attack is stronger!");
+            break;
+        default:
+            System.out.println("That item cannot be used.");
+    }
+}
+
+// --- Show Player Status ---
+static void displayStatus(){
+    System.out.println("\n----- STATUS -----");
+    System.out.println("Health: " + health);
+    System.out.println("Gold: " + gold);
+    System.out.println("Inventory: " + inventory);
+    System.out.println("Active Effects: " + activeEffects);
+}
+
+
 
 }
